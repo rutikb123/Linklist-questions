@@ -1,0 +1,76 @@
+codestudio(Detect & Remove Loop in Linked List: https://bit.ly/3rSdTDo)
+
+
+/*************************************************
+    
+    class Node {
+        public :
+
+        int data;
+        Node *next;
+
+        Node(int data) {
+            this -> data = data;
+            this -> next = NULL;
+        }
+    };
+
+*************************************************/
+Node* detectLoop(Node* head){
+    if(head == NULL){
+        return head;
+    }
+    Node* slow = head;
+    Node* fast = head;
+
+    while(slow != NULL && fast!= NULL){
+        fast = fast->next;
+        if(fast!= NULL){
+            fast = fast->next;
+        }
+        slow = slow->next;
+        if(slow == fast){
+            return slow;
+        }
+    }
+    return NULL;
+
+}
+
+Node *satartNode(Node* head){
+
+    Node *intersection = detectLoop(head);
+
+    if(intersection == NULL){
+        return NULL;
+    }
+
+    Node* slow = head;
+
+    while(slow != intersection){
+            slow = slow->next;
+            intersection = intersection->next;
+    }
+    return slow;
+}
+
+Node *removeLoop(Node *head)
+{
+      if(head == NULL){
+          return head;
+      }
+
+      Node *temp = satartNode(head);
+
+      if(temp == NULL){
+          return head;
+      }
+      Node* priv = temp;
+      while(priv->next != temp){
+          priv = priv->next;
+      }
+
+      priv->next = NULL;
+      return head;     
+
+}
